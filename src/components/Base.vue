@@ -39,7 +39,7 @@
     </div>
 
       <button v-on:click="removeColor" v-bind:disabled="isRemovable" class="remove-button button">Remove</button>
-      <button v-on:click="checkAttemp" v-bind:disabled="!isValid || is_over" class="valid-button button">Valid</button>
+      <button v-on:click="checkAttemp" v-bind:disabled="!isValid || isOver" class="valid-button button">Valid</button>
     </div>
   </div>
 </template>
@@ -86,6 +86,7 @@ export default {
       this.attemps = []
       this.isOver = false
       this.isWin = false
+      console.log(this.solution)
     },
     addColor: function (color) {
       let attemp = this.attemp
@@ -107,21 +108,43 @@ export default {
     },
     checkAttemp: function () {
       let attemp = {}
+      let comparative_solution = this.solution.slice()
+      let missmatch_colors = []
       const solution = this.solution
 
+      /* set attemp structure for history */
       attemp.response = this.attemp
       attemp.correction = []
 
-      attemp.response.map(function (item, index) {
-        if (parseInt(attemp.response[index]) === solution[index]) {
+      /* check perfect match */
+      attemp.response.forEach(function (item, index) {
+        if (attemp.response[index] == solution[index]) {
+          /* add black token (code 2) to correction */
           attemp.correction.push(2)
-        } else if (solution.includes(parseInt(attemp.response[index]))) {
+
+          /* remove matching value from comparative_solution */
+          comparative_solution.splice(index, 1, null)
+        } else {
+          missmatch_colors.push(item)
+        }
+      })
+
+      /*  with remaining value from attemp, check if value exist in comprative solution */
+      /* add one (and only) white token (code 1) by existing value */
+      missmatch_colors.forEach(function (item, index) {
+        if (comparative_solution.indexOf(parseInt(item)) >= 0) {
+          /* missmatch color found, remove from comprative solution to avoid multpile white token */
+          comparative_solution.splice(comparative_solution.indexOf(parseInt(item)), 1, null)
+          /* add white token (code 1) to correction */
           attemp.correction.push(1)
         } else {
           attemp.correction.push(0)
         }
       })
 
+      /* Sort array, player can't have match order  */
+      attemp.correction.sort().reverse()
+      /* push attemp with correction for history */
       this.attemps.push(attemp)
       this.attemp = []
 
