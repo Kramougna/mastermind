@@ -86,7 +86,6 @@ export default {
       this.attemps = []
       this.isOver = false
       this.isWin = false
-      console.log(this.solution)
     },
     addColor: function (color) {
       let attemp = this.attemp
@@ -100,7 +99,6 @@ export default {
       let attemp = this.attemp
 
       if (attemp.length > 0) {
-        console.log('remove')
         attemp.pop()
       } else {
         alert('no color to remove')
@@ -108,8 +106,8 @@ export default {
     },
     checkAttemp: function () {
       let attemp = {}
-      let comparative_solution = this.solution.slice()
-      let missmatch_colors = []
+      let comparativeSolution = this.solution.slice()
+      let missmatchColors = []
       const solution = this.solution
 
       /* set attemp structure for history */
@@ -122,19 +120,19 @@ export default {
           /* add black token (code 2) to correction */
           attemp.correction.push(2)
 
-          /* remove matching value from comparative_solution */
-          comparative_solution.splice(index, 1, null)
+          /* remove matching value from comparativeSolution */
+          comparativeSolution.splice(index, 1, null)
         } else {
-          missmatch_colors.push(item)
+          missmatchColors.push(item)
         }
       })
 
       /*  with remaining value from attemp, check if value exist in comprative solution */
       /* add one (and only) white token (code 1) by existing value */
-      missmatch_colors.forEach(function (item, index) {
-        if (comparative_solution.indexOf(parseInt(item)) >= 0) {
+      missmatchColors.forEach(function (item, index) {
+        if (comparativeSolution.indexOf(parseInt(item)) >= 0) {
           /* missmatch color found, remove from comprative solution to avoid multpile white token */
-          comparative_solution.splice(comparative_solution.indexOf(parseInt(item)), 1, null)
+          comparativeSolution.splice(comparativeSolution.indexOf(parseInt(item)), 1, null)
           /* add white token (code 1) to correction */
           attemp.correction.push(1)
         } else {
