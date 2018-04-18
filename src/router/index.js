@@ -5,6 +5,7 @@ import Base from '@/components/Base'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',

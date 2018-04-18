@@ -4,20 +4,20 @@
       <tr>
         <td colspan="3"><h2>Attemp {{attempCount}} / 10</h2></td>
       </tr>
-      <tr v-for="(attemp, index) in attemps">
+      <tr v-for="(attemp, index) in attemps" :key="attemp.id">
         <td>
           <p>{{ index +1 }}</p>
         </td>
         <td>
           <ul>
-              <li v-for="response in attemp.response">
-                <p v-bind:class="color[response]" class="attemp circle"></p>
+              <li v-for="response in attemp.response" :key="response.id">
+                <p v-bind:class="color[response]"  class="attemp circle"></p>
               </li>
           </ul>
         </td>
         <td>
           <ul>
-            <li v-for="correction in attemp.correction">
+            <li v-for="correction in attemp.correction" :key="correction.id">
               <p v-bind:class="correction_colors[correction]" class="correction circle"></p>
             </li>
           </ul>

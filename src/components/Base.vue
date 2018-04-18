@@ -116,7 +116,7 @@ export default {
 
       /* check perfect match */
       attemp.response.forEach(function (item, index) {
-        if (attemp.response[index] == solution[index]) {
+        if (parseFloat(attemp.response[index]) === solution[index]) {
           /* add black token (code 2) to correction */
           attemp.correction.push(2)
 
@@ -292,7 +292,6 @@ export default {
       background-color: $red;
     }
   }
-
 
   .valid-button {
     color: $green;
